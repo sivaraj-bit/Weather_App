@@ -12,8 +12,6 @@ function App() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
-
   const handleSearch = async (event) => {
     event.preventDefault();
 
@@ -23,37 +21,23 @@ function App() {
       return;
     }
 
-    if (!API_KEY) {
-      setError("API key not found. Check your .env file.");
-      setWeather(null);
-      return;
-    }
-
     setLoading(true);
     setError("");
     setWeather(null);
 
     try {
-      const response = await axios.get(
-        "https://api.openweathermap.org/data/2.5/weather",
-        {
-          params: {
-            q: city.trim(),
-            appid: API_KEY,
-            units: "metric",
-          },
-        }
-      );
+      const response = await axios.get("/api/weather", {
+        params: {
+          city: city.trim(),
+        },
+      });
 
       setWeather(response.data);
     } catch (err) {
-      if (err.response?.status === 404) {
-        setError("City not found. Please try another city.");
-      } else if (err.response?.status === 401) {
-        setError("API key is invalid or not activated.");
-      } else {
-        setError("Unable to fetch weather. Please try again.");
-      }
+      setError(
+        err.response?.data?.message ||
+          "Unable to fetch weather. Please try again."
+      );
     } finally {
       setLoading(false);
     }
