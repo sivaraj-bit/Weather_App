@@ -70,9 +70,9 @@ function Navbar() {
 
       {/* Mobile navigation */}
       <div
-        id="mobile-navigation"
-        hidden={!menuOpen}
-        className="border-t border-white/10 px-4 py-4 md:hidden"
+      id="mobile-navigation"
+      hidden={!menuOpen}
+      className="absolute left-0 top-full z-50 w-full border-t border-white/10 bg-slate-950 px-4 py-4 shadow-xl md:hidden"
       >
         <div className="mx-auto flex max-w-7xl flex-col gap-1">
           <a href="#home" onClick={closeMenu} className={navLinkClass}>
